@@ -10,10 +10,9 @@ describe('authentication-ctbe routes', () => {
 
     it('should return a newly POSTed User id and email', async () => {
         const res = await request(app)
-            .post('api/auth/signup')
+            .post('/api/auth/signup')
             .send({ email: 'cow@moo.com', password: 'mooo' });
-
-        expect(res).toEqual({
+        expect(res.body).toEqual({
             id: expect.any(String),
             email: 'cow@moo.com',
         });
