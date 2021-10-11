@@ -18,6 +18,19 @@ describe('authentication-ctbe routes', () => {
         });
     });
 
+    it('should return 400 upon signup w/ email already in use', async () => {
+        await request(app)
+            .post('/api/auth/signup')
+            .send({ email: 'cow@moo.com', password: 'mooo' });
+        const res = await request(app)
+            .post('/api/auth/signup')
+            .send({ email: 'cow@moo.com', password: 'Hi!' });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.message).toEqual(
+            'There is already a user with this email'
+        );
+    });
+
     afterAll(() => {
         pool.end();
     });
