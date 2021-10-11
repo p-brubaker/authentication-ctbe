@@ -31,6 +31,19 @@ describe('authentication-ctbe routes', () => {
         );
     });
 
+    it('should login a user and respond with the existing users id', async () => {
+        await request(app)
+            .post('/api/auth/signup')
+            .send({ email: 'cow@moo.com', password: 'mooo' });
+        const res = await request(app)
+            .post('/api/auth/signin')
+            .send({ email: 'cow@moo.com', password: 'mooo' });
+        expect(res.body).toEqual({
+            email: 'cow@moo.com',
+            id: expect.any(String),
+        });
+    });
+
     afterAll(() => {
         pool.end();
     });
